@@ -1,16 +1,6 @@
 // league.controller.js
 const League = require("../models/model");
 
-//inviting post
-exports.createLeague = async (req, res) => {
-  const { id } = req.params;
-  const { email } = req.body;
-  const league = await League.findById(id);
-  league.members.push(email);
-  await league.save();
-  res.json(league);
-};
-
 exports.getLeagues = async (req, res) => {
   const leagues = await League.find();
   res.json(leagues);
@@ -36,6 +26,16 @@ exports.updateLeague = async (req, res) => {
 
 exports.deleteLeague = async (req, res) => {
   const { id } = req.params;
-  await League.findByIdAndRemove(id);
+  await League.findByIdAndDelete(id);
   res.json({ message: `League with id ${id} deleted successfully` });
+};
+
+//inviting post
+exports.createLeague = async (req, res) => {
+  const { id } = req.params;
+  const { email } = req.body;
+  const league = await League.findById(id);
+  league.members.push(email);
+  await league.save();
+  res.json(league);
 };
