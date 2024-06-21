@@ -7,6 +7,6 @@ router.get("/leagues", leagueController.getLeagues);
 router.post("/leagues", leagueController.createLeague);
 router.put("/leagues/:id", leagueController.updateLeague);
 router.delete("/leagues/:id", leagueController.deleteLeague);
-router.post("/leagues/:id/invite", leagueController.createLeague);
+router.post("/leagues/:id/invite", leagueController.inviteMember);
 
 module.exports = router;

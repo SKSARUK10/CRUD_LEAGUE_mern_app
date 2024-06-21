@@ -31,11 +31,24 @@ exports.deleteLeague = async (req, res) => {
 };
 
 //inviting post
-exports.createLeague = async (req, res) => {
-  const { id } = req.params;
-  const { email } = req.body;
-  const league = await League.findById(id);
-  league.members.push(email);
-  await league.save();
-  res.json(league);
+// Invite a member to a league
+exports.inviteMember = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { email } = req.body;
+    const league = await League.findById(id);
+
+    // Check if league exists
+    if (!league) {
+      return res.status(404).json({ message: "League not found" });
+    }
+
+    // Add the member email to the league's members array
+    league.members.push(email);
+    await league.save();
+    res.json(league);
+  } catch (error) {
+    console.error("Error inviting member to league:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
